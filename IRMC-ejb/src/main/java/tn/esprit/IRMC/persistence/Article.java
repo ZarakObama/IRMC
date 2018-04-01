@@ -25,25 +25,38 @@ public class Article implements Serializable {
 	private Integer numero;
 	private String pays;
 	private String abstrait;
-	private Timestamp date_ajout;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date date_ajout;
 	private String file;
 	
 
-    @ManyToMany(cascade = { 
-        CascadeType.PERSIST, 
-        CascadeType.MERGE
+    @ManyToMany(fetch=FetchType.EAGER,cascade = { 
+        CascadeType.PERSIST, CascadeType.REMOVE
+        
     })
     @JoinTable(name = "Article_Auteur",
         joinColumns = @JoinColumn(name = "article_id"),
         inverseJoinColumns = @JoinColumn(name = "auteur_id")
     )
+    
     private List<Auteur> Auteurs = new ArrayList<>();
     
-    @OneToMany(
-	        cascade = CascadeType.ALL, 
-	        orphanRemoval = true
+    
+    @OneToMany(fetch=FetchType.EAGER,
+	       mappedBy="article"
 	    )
 	    private List<Reference> references = new ArrayList<>();
+    
+    
+    @ManyToMany(fetch=FetchType.EAGER,cascade = { 
+            CascadeType.PERSIST, CascadeType.REMOVE
+            
+        })
+        @JoinTable(name = "Article_Tag",
+            joinColumns = @JoinColumn(name = "article_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+        )
+        private List<Tag> Tags = new ArrayList<>();
 	private static final long serialVersionUID = 1L;
 
 	public Integer getId() {
@@ -102,13 +115,7 @@ public class Article implements Serializable {
 		this.abstrait = abstrait;
 	}
 
-	public Timestamp getDate_ajout() {
-		return date_ajout;
-	}
-
-	public void setDate_ajout(Timestamp date_ajout) {
-		this.date_ajout = date_ajout;
-	}
+	
 
 	public String getFile() {
 		return file;
@@ -128,6 +135,30 @@ public class Article implements Serializable {
 
 	public Article() {
 		super();
+	}
+
+	public List<Reference> getReferences() {
+		return references;
+	}
+
+	public void setReferences(List<Reference> references) {
+		this.references = references;
+	}
+
+	public List<Tag> getTags() {
+		return Tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		Tags = tags;
+	}
+
+	public Date getDate_ajout() {
+		return date_ajout;
+	}
+
+	public void setDate_ajout(Date date_ajout) {
+		this.date_ajout = date_ajout;
 	}
    
 }

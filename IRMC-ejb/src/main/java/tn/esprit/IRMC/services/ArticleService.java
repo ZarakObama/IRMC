@@ -5,13 +5,19 @@ import java.util.List;
 import javax.ejb.Local;
 
 import tn.esprit.IRMC.persistence.Article;
+import tn.esprit.IRMC.persistence.Auteur;
+import tn.esprit.IRMC.persistence.Reference;
+import tn.esprit.IRMC.persistence.Tag;
 
 @Local
 public interface ArticleService {
 
 
-	public void addArticle(Article a);
+	public Article addArticle(Article a);
 	public void updateArticle(Article a);
+	public void affecterAuteurArticle(Auteur a , Article b );
+	public void affecterReferenceArticle(Reference r  , Article b );
+	public void affecterTagArticle(Tag t , Article b );
 	public void deleteArticle(Integer id);
 	public Article getArticlebyid(Integer id);
 	public List<Article> getAllArticle();

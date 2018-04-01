@@ -3,15 +3,20 @@ package tn.esprit.IRMC.services;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import tn.esprit.IRMC.persistence.Article;
+import tn.esprit.IRMC.persistence.Auteur;
+import tn.esprit.IRMC.persistence.Reference;
+import tn.esprit.IRMC.persistence.Tag;
 
 @Stateless
-public class ArticleServiceImpl implements ArticleService {
+@LocalBean
+public class ArticleServiceImpl implements ArticleService,ArticleServiceRemote {
 	
 	@PersistenceContext
 	EntityManager em;
@@ -19,8 +24,9 @@ public class ArticleServiceImpl implements ArticleService {
 	ArticleService se;
 
 	@Override
-	public void addArticle(Article a) {
+	public Article addArticle(Article a) {
 		em.persist(a);
+		return a ;
 		
 	}
 
@@ -45,6 +51,29 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public Article getArticlebyid(Integer id) {
 		return em.find(Article.class, id);
+	}
+
+	@Override
+	public void affecterAuteurArticle(Auteur a, Article b) {
+
+		b.getAuteurs().add(a);
+		em.merge(b);
+		em.flush();
+	}
+
+	@Override
+	public void affecterReferenceArticle(Reference r, Article b) {
+		r.setArticle(b);
+		em.merge(r);
+		em.flush();
+	}
+
+	@Override
+	public void affecterTagArticle(Tag t, Article b) {
+		b.getTags().add(t);
+		em.merge(b);
+		em.flush();
+		
 	}
 
 }

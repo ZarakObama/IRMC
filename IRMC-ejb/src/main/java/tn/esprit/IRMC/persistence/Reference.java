@@ -16,8 +16,10 @@ public class Reference implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 	private String url;
-	
+	private String description;
 
+	@ManyToOne()
+	private Article article ;
 
 	public String getUrl() {
 		return url;
@@ -42,5 +44,22 @@ public class Reference implements Serializable {
 	public Reference() {
 		super();
 	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Article getArticle() {
+		return article;
+	}
+
+	public void setArticle(Article article) {
+		this.article = article;
+	}
    
+	
 }
