@@ -14,4 +14,8 @@ public interface UserServiceRemote {
     Boolean removeUser(User usr);
     List<User> findAll();
     User FindById(int id);
+    User connect (String login , String password);
+    List<User> usertoapprouve();
+    void approuver(User user);
+
 }

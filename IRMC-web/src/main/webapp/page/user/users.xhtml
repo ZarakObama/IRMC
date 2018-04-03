@@ -8,14 +8,14 @@
 	   xmlns:p="http://primefaces.org/ui">
 	   
 <h:head>
-	<title>Users</title>
+	<title>Freinds</title>
 </h:head>
 <h:body>
 	
 	<h3>Already registred Users</h3>
 	<h:dataTable value="#{UserBean.users}" var="user">
 		<h:column>
-			<h:outputText value="#{user.adress}" />
+			<h:outputText value="#{user.nom}" />
 		</h:column>
 	</h:dataTable >
 </h:body>

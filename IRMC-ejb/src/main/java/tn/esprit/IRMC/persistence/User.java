@@ -4,6 +4,7 @@ package tn.esprit.IRMC.persistence;
 import java.io.Serializable;
 import java.lang.Integer;
 import java.lang.String;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import javax.persistence.*;
 public class User implements Serializable {
     @Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+	private Integer iduser;
 	private String nom;
 	private String prenom;
 	private String email;
@@ -27,14 +28,20 @@ public class User implements Serializable {
 	private String adress;
 	private Integer tel;
 	private Date date;
-
-
+	private Role role;
+	private Etat etat;
 	
 	private static final long serialVersionUID = 1L;
     @OneToMany(mappedBy="sender")
 	private List<Message> getMessagesFromTo;
 	@OneToMany(mappedBy="receiver")
 	private List<Message> getMessagesFor;
+	
+	@ManyToMany()
+	@JoinTable(name = "friendship",
+	        inverseJoinColumns={@JoinColumn(name="friend_id", referencedColumnName="iduser")}        
+)
+	private List<User> friendship = new ArrayList<>();
 	
 	public Integer getTel() {
 		return tel;
@@ -49,11 +56,11 @@ public class User implements Serializable {
 	}   
 	
 	public Integer getId() {
-		return this.id;
+		return this.iduser;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setId(Integer iduser) {
+		this.iduser = iduser;
 	}   
 	
 	public String getNom() {
@@ -119,10 +126,10 @@ public class User implements Serializable {
 	}
 	
 	
-	public User(Integer id, String nom, String prenom, String email, String login, String password, String adress,
+	public User(Integer iduser, String nom, String prenom, String email, String login, String password, String adress,
 			String type) {
 	
-		this.id = id;
+		this.iduser = iduser;
 		this.nom = nom;
 		this.prenom = prenom;
 		this.email = email;
@@ -140,6 +147,30 @@ public class User implements Serializable {
 		this.date = date;
 	}
 
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public Etat getEtat() {
+		return etat;
+	}
+
+	public void setEtat(Etat etat) {
+		this.etat = etat;
+	}
+
+	public List<User> getFriendship() {
+		return friendship;
+	}
+
+	public void setFriendship(List<User> friendship) {
+		this.friendship = friendship;
+	}
+	
 	
 	
    
